@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Intersection Observer</title>
+  <style>
+
+  </style>
+</head>
+<body>
+  <div id="scrollArea">
+    <button>observe</button>
+    <div id="item1" style="height: 100vh;border: 1px solid green;">shit</div>
+    <div id="item2" style="height: 200px;border: 1px solid #111;">hello</div>
+  </div>
+
+  <script>
+    let options = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.5
+    }
+    // When the amount of a target element which is visible within the root element crosses 
+    // one of the visibility thresholds, the IntersectionObserver object's callback is executed.
+    let callback = (entries, observer) => {
+      entries.forEach(entry => {
+        // Each entry describes an intersection change for one observed
+        // target element:
+        //   entry.boundingClientRect
+        //   entry.intersectionRatio
+        //   entry.intersectionRect
+        //   entry.isIntersecting
+        //   entry.rootBounds
+        //   entry.target
+        //   entry.time
+
+        // checking the value of the isIntersecting property on the IntersectionObserverEntry passed 
+        // into the callback function at the time of the visibility change
+        let elem = entry.target;
+        if (entry.isIntersecting) {
+          elem.innerText = 'half in view';
+        } else {
+          elem.innerText = 'out view';
+        }
+      });
+    };
+    
+    let observer = new IntersectionObserver(callback, options);
+    document.getElementsByTagName('button')[0].addEventListener('click', observe);
+    function observe() {
+      let target = document.querySelector('#item2');
+      observer.observe(target);
+    }
+  </script>
+</body>
+</html>
